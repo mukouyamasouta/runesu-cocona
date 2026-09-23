@@ -1,0 +1,638 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Cocona 帳票デザイン案</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;700&family=Shippori+Mincho+B1:wght@600;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=IBM+Plex+Sans+JP:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+/* ---------- shell ---------- */
+:root{
+  --shell-bg:#E8EAEE; --shell-ink:#1C2129; --shell-muted:#5B6371; --shell-line:#CBD0D8;
+  --shell-card:#FFFFFF; --shell-accent:#23457F; --shell-accent-ink:#FFFFFF;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --shell-bg:#101318; --shell-ink:#E6E9EF; --shell-muted:#949CAB; --shell-line:#2A303B;
+    --shell-card:#181C24; --shell-accent:#8FB0F0; --shell-accent-ink:#0E1320;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --shell-bg:#101318; --shell-ink:#E6E9EF; --shell-muted:#949CAB; --shell-line:#2A303B;
+  --shell-card:#181C24; --shell-accent:#8FB0F0; --shell-accent-ink:#0E1320;
+}
+*{box-sizing:border-box}
+html{color-scheme:light}
+body{margin:0;background:var(--shell-bg);color:var(--shell-ink);font-family:"BIZ UDPGothic","Hiragino Sans","Yu Gothic",sans-serif;font-size:14px;line-height:1.55}
+button,input,textarea{font:inherit;color:inherit}
+.switch{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--shell-card);border-bottom:1px solid var(--shell-line);padding:12px 20px}
+.switch-in{max-width:1480px;margin:0 auto;display:flex;flex-wrap:wrap;gap:12px 24px;align-items:center;justify-content:space-between}
+.switch h1{margin:0;font-size:15px;font-weight:700;letter-spacing:.02em}
+.switch h1 small{display:block;font-size:12px;font-weight:400;color:var(--shell-muted)}
+.tabs{display:flex;flex-wrap:wrap;gap:8px}
+.tab{border:1px solid var(--shell-line);background:transparent;border-radius:8px;padding:7px 12px;cursor:pointer;text-align:left;min-width:168px}
+.tab b{display:block;font-size:14px}
+.tab span{font-size:11.5px;color:var(--shell-muted)}
+.tab[aria-selected="true"]{background:var(--shell-accent);border-color:var(--shell-accent);color:var(--shell-accent-ink)}
+.tab[aria-selected="true"] span{color:inherit;opacity:.85}
+.tab:focus-visible{outline:2px solid var(--shell-accent);outline-offset:2px}
+.note{max-width:1480px;margin:8px auto 0;font-size:12px;color:var(--shell-muted)}
+.note mark{background:none;color:inherit;border-bottom:1px dashed currentColor}
+.scroll{overflow-x:auto}
+input[data-num]{font-variant-numeric:tabular-nums}
+.kari{font-size:10px;border:1px solid currentColor;border-radius:3px;padding:0 3px;margin-left:4px;opacity:.7;vertical-align:1px;font-weight:400}
+
+/* ============ A: 帳票そのまま ============ */
+.dA{
+  --desk:#D9DDE3; --paper:#FFFFFE; --ink:#1B2740; --rule:#7F8AA0; --rule-soft:#C6CCD7;
+  --calc:#EDF0F6; --seal:#C23B2E; --focus:#2456C8; --muted:#5A6479;
+  background:var(--desk);color:var(--ink);padding-block:28px 40px;padding-inline:20px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]) .dA{--desk:#11141A;--paper:#1C212B;--ink:#E3E7EF;--rule:#5D677B;--rule-soft:#363D4B;--calc:#252B36;--seal:#F0695B;--focus:#86A6FF;--muted:#98A1B3}
+}
+:root[data-theme="dark"] .dA{--desk:#11141A;--paper:#1C212B;--ink:#E3E7EF;--rule:#5D677B;--rule-soft:#363D4B;--calc:#252B36;--seal:#F0695B;--focus:#86A6FF;--muted:#98A1B3}
+.dA .desk{max-width:1480px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,640px),1fr));gap:28px;align-items:start}
+.dA .sheet{background:var(--paper);box-shadow:0 1px 2px rgba(0,0,0,.08),0 10px 30px -12px rgba(20,30,50,.25);padding:28px 30px 30px;display:grid;gap:16px}
+.dA .sh-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:12px}
+.dA .form-title{font-family:"Shippori Mincho B1",serif;font-weight:800;font-size:26px;letter-spacing:.14em;margin:0}
+.dA .form-title.boxed{border:1.5px solid var(--ink);padding:2px 18px}
+.dA .date-line{font-family:"Shippori Mincho B1",serif;font-size:16px;letter-spacing:.12em}
+.dA .top{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:16px;align-items:start}
+.dA .who-box{display:grid;gap:10px}
+.dA .fld{display:flex;align-items:baseline;gap:8px;border-bottom:1px solid var(--rule);padding-bottom:2px}
+.dA .fld .lab{font-size:12px;color:var(--muted);white-space:nowrap;min-width:5.5em}
+.dA .fld input,.dA .fld output{flex:1;min-width:0;border:0;background:transparent;font-size:17px;padding:2px 4px}
+.dA .fld output{text-align:right;font-variant-numeric:tabular-nums}
+.dA .fld input[data-num]{text-align:right}
+.dA .unit{font-size:12px}
+.dA .sub{font-size:12px;color:var(--muted);text-align:right}
+.dA .sub output{font-variant-numeric:tabular-nums;color:var(--ink)}
+.dA .stamps{display:flex;border:1px solid var(--rule)}
+.dA .a-stamp{width:64px;border:0;border-left:1px solid var(--rule);background:transparent;padding:0;cursor:pointer;display:grid;grid-template-rows:auto 60px}
+.dA .a-stamp:first-child{border-left:0}
+.dA .a-stamp .role{font-size:11px;letter-spacing:.2em;border-bottom:1px solid var(--rule);padding:2px 0;text-align:center}
+.dA .a-stamp .seal{display:grid;place-items:center}
+.dA .a-stamp .who{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;font-family:"Shippori Mincho B1",serif;font-weight:800;font-size:15px;color:var(--seal);border:2px solid transparent;transform:rotate(-8deg)}
+.dA .a-stamp.on .who{border-color:var(--seal)}
+.dA .a-stamp:not(.on):hover .seal::after{content:"押印";font-size:11px;color:var(--muted)}
+.dA .a-stamp:focus-visible{outline:2px solid var(--focus);outline-offset:-2px}
+.dA .cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr));gap:18px 22px}
+.dA h3{font-size:12.5px;font-weight:700;margin:0 0 6px;letter-spacing:.08em}
+.dA table.grid{border-collapse:collapse;width:100%;font-size:13px}
+.dA .grid th,.dA .grid td{border:1px solid var(--rule);padding:0;height:31px}
+.dA .grid thead th{font-weight:400;font-size:11.5px;letter-spacing:.3em;height:24px;background:transparent}
+.dA .grid tbody th{font-weight:400;text-align:left;padding:0 8px;white-space:nowrap}
+.dA .grid td input{width:100%;height:30px;border:0;background:transparent;padding:0 8px;text-align:right}
+.dA .grid td input:not([data-num]){text-align:left}
+.dA .grid td output{display:block;text-align:right;padding:0 8px;font-variant-numeric:tabular-nums}
+.dA .grid .calc{background:var(--calc)}
+.dA .grid .strong th,.dA .grid .strong td{border-top:2px solid var(--ink)}
+.dA .grid .strong output{font-weight:700}
+.dA input:focus-visible,.dA textarea:focus-visible{outline:2px solid var(--focus);outline-offset:-2px;background:var(--calc)}
+.dA .menu-box{position:relative;padding:0 14px}
+.dA .menu-box::before,.dA .menu-box::after{content:"";position:absolute;top:0;bottom:0;width:8px;border:1.5px solid var(--ink)}
+.dA .menu-box::before{left:0;border-right:0}
+.dA .menu-box::after{right:0;border-left:0}
+.dA .menu-box textarea{width:100%;border:0;background:transparent;resize:vertical;padding:6px 2px;font-size:14px}
+.dA .memo{display:grid;gap:0;border:1px solid var(--rule)}
+.dA .memo label{display:block;font-size:12px;padding:4px 8px 0}
+.dA .memo textarea{width:100%;border:0;background:transparent;resize:vertical;padding:2px 8px 8px;background-image:linear-gradient(transparent 27px,var(--rule-soft) 27px);background-size:100% 28px;line-height:28px}
+.dA .memo > div + div{border-top:1px solid var(--rule)}
+.dA .nk{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,270px),1fr));gap:0 18px;align-items:start}
+.dA .nk-right{display:grid;gap:14px}
+.dA .yen-fixed{font-family:"IBM Plex Mono",monospace;letter-spacing:.35em;font-size:15px;text-align:right;padding:0 8px}
+.dA .nk-foot{display:flex;flex-wrap:wrap;gap:12px 28px;justify-content:space-between;align-items:flex-end}
+.dA .nk-foot .fld{min-width:220px}
+.dA .tanto-line{display:flex;align-items:baseline;gap:10px;border-bottom:1px solid var(--rule);min-width:260px}
+.dA .tanto-line input{border:0;background:transparent;font-size:16px;flex:1;min-width:0}
+.dA .inkan{font-family:"Shippori Mincho B1",serif;border:1px solid var(--ink);border-radius:50%;width:20px;height:20px;display:inline-grid;place-items:center;font-size:11px}
+.dA .diff-cell[data-state="short"] output,.dA .diff-cell[data-state="over"] output{color:var(--seal);font-weight:700}
+
+/* ============ B: 入力ガイド＋検算パネル ============ */
+.dB{
+  --bg:#ECF2F0; --surface:#FFFFFF; --ink:#12302F; --muted:#587170; --line:#D0DEDA;
+  --brand:#0F5257; --brand-ink:#FFFFFF; --brand-soft:#DCEBE7; --amber:#B8741A; --amber-soft:#FBEBD2;
+  --ok:#1C7F52; --ok-soft:#DCF1E6; --bad:#B63326; --bad-soft:#F8E0DC;
+  background:var(--bg);color:var(--ink);font-family:"Zen Kaku Gothic New","BIZ UDPGothic",sans-serif;padding-inline:20px;padding-block:0 40px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]) .dB{--bg:#0D1716;--surface:#14211F;--ink:#E1EEEB;--muted:#8DA5A1;--line:#243C38;--brand:#5EC4B9;--brand-ink:#08201D;--brand-soft:#193531;--amber:#F0B458;--amber-soft:#3A2C14;--ok:#55CE92;--ok-soft:#133226;--bad:#FF8173;--bad-soft:#3D1D19}
+}
+:root[data-theme="dark"] .dB{--bg:#0D1716;--surface:#14211F;--ink:#E1EEEB;--muted:#8DA5A1;--line:#243C38;--brand:#5EC4B9;--brand-ink:#08201D;--brand-soft:#193531;--amber:#F0B458;--amber-soft:#3A2C14;--ok:#55CE92;--ok-soft:#133226;--bad:#FF8173;--bad-soft:#3D1D19}
+.dB .b-top{max-width:1480px;margin:0 auto;display:flex;flex-wrap:wrap;align-items:center;gap:12px 20px;padding-block:18px}
+.dB .b-brand{font-weight:700;font-size:20px;letter-spacing:.04em}
+.dB .b-brand span{font-weight:500;font-size:13px;color:var(--muted);margin-left:10px;letter-spacing:.1em}
+.dB .b-date{display:flex;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:6px 12px}
+.dB .b-date input{border:0;background:transparent;font-family:"IBM Plex Mono",monospace}
+.dB .chip{font-size:12px;font-weight:700;border-radius:999px;padding:3px 10px}
+.dB .chip.draft{background:var(--amber-soft);color:var(--amber)}
+.dB .b-actions{margin-left:auto;display:flex;gap:8px}
+.dB .btn{border-radius:10px;padding:9px 16px;font-weight:700;cursor:pointer;border:1px solid var(--line);background:var(--surface)}
+.dB .btn.primary{background:var(--brand);border-color:var(--brand);color:var(--brand-ink)}
+.dB .btn:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
+.dB .b-layout{max-width:1480px;margin:0 auto;display:grid;grid-template-columns:190px minmax(0,1fr) 310px;gap:22px;align-items:start}
+.dB .b-nav{position:sticky;top:calc(env(safe-area-inset-top,0px) + 96px);display:grid;gap:14px;font-size:13px}
+.dB .b-nav p{margin:0 0 4px;font-size:11px;letter-spacing:.2em;color:var(--muted)}
+.dB .b-nav a{display:flex;justify-content:space-between;padding:6px 10px;border-radius:8px;color:inherit;text-decoration:none}
+.dB .b-nav a:hover{background:var(--brand-soft)}
+.dB .b-nav a .dot{width:7px;height:7px;border-radius:50%;background:var(--ok);align-self:center}
+.dB .b-main{display:grid;gap:16px}
+.dB .card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px 20px;scroll-margin-top:110px}
+.dB .card h2{margin:0 0 14px;font-size:15px;display:flex;align-items:baseline;gap:10px}
+.dB .card h2 small{font-weight:400;font-size:12px;color:var(--muted)}
+.dB .part{font-size:11px;font-weight:700;letter-spacing:.2em;color:var(--brand);margin:10px 0 -4px 4px}
+.dB .fields{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:12px 14px}
+.dB .f{display:grid;gap:4px}
+.dB .f label{font-size:12px;color:var(--muted)}
+.dB .f input,.dB .f textarea,.dB table input{border:1px solid var(--line);border-radius:8px;padding:8px 10px;background:var(--bg);width:100%}
+.dB .f input[data-num],.dB table input[data-num]{text-align:right;font-family:"IBM Plex Mono",monospace}
+.dB .f textarea{resize:vertical}
+.dB input:focus-visible,.dB textarea:focus-visible{outline:2px solid var(--brand);outline-offset:0;border-color:var(--brand);background:var(--surface)}
+.dB .f.calc output{border-radius:8px;padding:8px 10px;background:var(--brand-soft);text-align:right;font-family:"IBM Plex Mono",monospace;font-weight:600}
+.dB .maru{color:var(--brand);font-weight:700;margin-right:4px}
+.dB table{border-collapse:collapse;width:100%;font-size:13.5px}
+.dB th,.dB td{padding:6px 8px;border-bottom:1px solid var(--line);text-align:left}
+.dB thead th{font-size:11.5px;color:var(--muted);font-weight:500}
+.dB td.r,.dB th.r{text-align:right}
+.dB td output{font-family:"IBM Plex Mono",monospace}
+.dB tfoot th,.dB tfoot td{border-bottom:0;font-weight:700;padding-top:10px}
+.dB .b-sum{position:sticky;top:calc(env(safe-area-inset-top,0px) + 96px);background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px;display:grid;gap:14px}
+.dB .b-sum h2{margin:0;font-size:12px;letter-spacing:.2em;color:var(--muted)}
+.dB .big{font-family:"IBM Plex Mono",monospace;font-size:30px;font-weight:600;line-height:1.1}
+.dB .big small{font-size:14px;margin-left:2px}
+.dB .rows{display:grid;gap:6px;font-size:13px}
+.dB .rows div{display:flex;justify-content:space-between;gap:10px}
+.dB .rows output{font-family:"IBM Plex Mono",monospace}
+.dB .rows .sep{border-top:1px dashed var(--line);padding-top:6px}
+.dB .diff{border-radius:12px;padding:12px 14px;display:grid;gap:4px}
+.dB .diff[data-state="ok"]{background:var(--ok-soft);color:var(--ok)}
+.dB .diff[data-state="short"],.dB .diff[data-state="over"]{background:var(--bad-soft);color:var(--bad)}
+.dB .diff .lbl{display:flex;justify-content:space-between;font-size:12px;font-weight:700}
+.dB .diff .big{font-size:24px}
+.dB .steps{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.dB .steps button{width:100%;display:flex;justify-content:space-between;align-items:center;border:1px solid var(--line);background:transparent;border-radius:10px;padding:7px 10px;cursor:pointer;font-size:13px}
+.dB .steps button .who{font-size:12px;color:var(--muted)}
+.dB .steps button.on{background:var(--ok-soft);border-color:transparent}
+.dB .steps button.on .who{color:var(--ok);font-weight:700}
+.dB .steps button.on .who::before{content:"✓ "}
+@media (max-width:1180px){.dB .b-layout{grid-template-columns:minmax(0,1fr) 290px}.dB .b-nav{display:none}}
+@media (max-width:780px){.dB .b-layout{grid-template-columns:1fr}.dB .b-sum{position:static}.dB .b-actions{margin-left:0}}
+
+/* ============ C: 表計算ライク ============ */
+.dC{
+  --bg:#F1F2F5; --surface:#FFFFFF; --ink:#161A22; --muted:#636C7E; --line:#DADEE6; --grid:#E8EBF0;
+  --accent:#2C57E0; --accent-ink:#FFFFFF; --accent-soft:#E5EBFC; --calc:#F6F7FA;
+  --ok:#17804F; --warn:#A8690C; --bad:#BD2F22; --info:#2C57E0; --rest:#C9CED8;
+  background:var(--bg);color:var(--ink);font-family:"IBM Plex Sans JP","BIZ UDPGothic",sans-serif;font-size:13px;padding-inline:20px;padding-block:0 20px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]) .dC{--bg:#0C0E13;--surface:#14171F;--ink:#E6E9EF;--muted:#8A92A4;--line:#262B36;--grid:#1D212A;--accent:#7D9BFF;--accent-ink:#0B1020;--accent-soft:#1B2442;--calc:#10131A;--ok:#4FCB8B;--warn:#EDB150;--bad:#FF7D70;--info:#7D9BFF;--rest:#343A47}
+}
+:root[data-theme="dark"] .dC{--bg:#0C0E13;--surface:#14171F;--ink:#E6E9EF;--muted:#8A92A4;--line:#262B36;--grid:#1D212A;--accent:#7D9BFF;--accent-ink:#0B1020;--accent-soft:#1B2442;--calc:#10131A;--ok:#4FCB8B;--warn:#EDB150;--bad:#FF7D70;--info:#7D9BFF;--rest:#343A47}
+.dC .c-bar{max-width:1480px;margin:0 auto;display:flex;flex-wrap:wrap;align-items:stretch;gap:10px;padding-block:14px}
+.dC .c-title{display:flex;align-items:center;gap:10px;font-weight:600;font-size:15px;padding-right:6px}
+.dC .c-nav{display:flex;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:6px}
+.dC .c-nav button{border:0;background:transparent;padding:6px 10px;cursor:pointer;color:var(--muted)}
+.dC .c-nav span{font-family:"IBM Plex Mono",monospace;padding:0 6px}
+.dC .kpis{display:flex;flex-wrap:wrap;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:6px;overflow:hidden;flex:1}
+.dC .kpi{background:var(--surface);padding:6px 12px;min-width:112px;flex:1}
+.dC .kpi > span{display:block;font-size:10.5px;color:var(--muted);letter-spacing:.06em}
+.dC .kpi output{font-family:"IBM Plex Mono",monospace;font-size:17px;font-weight:600}
+.dC .kpi[data-state="ok"] output{color:var(--ok)}
+.dC .kpi[data-state="short"] output,.dC .kpi[data-state="over"] output{color:var(--bad)}
+.dC .c-stamps{display:flex;gap:4px;align-items:center}
+.dC .c-stamps button{border:1px solid var(--line);background:var(--surface);border-radius:4px;padding:3px 6px;font-size:11px;cursor:pointer;display:grid;text-align:center;min-width:46px}
+.dC .c-stamps button .who{font-size:11px;color:var(--muted)}
+.dC .c-stamps button.on{border-color:var(--ok);color:var(--ok)}
+.dC .c-stamps button.on .who{color:var(--ok);font-weight:600}
+.dC .c-layout{max-width:1480px;margin:0 auto;display:grid;grid-template-columns:232px minmax(0,1fr);gap:12px;align-items:start}
+.dC .c-cal{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:12px;display:grid;gap:10px}
+.dC .c-cal h2{margin:0;font-size:12px;display:flex;justify-content:space-between}
+.dC .cal{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;font-family:"IBM Plex Mono",monospace;font-size:11.5px}
+.dC .cal .wd{text-align:center;color:var(--muted);font-family:"IBM Plex Sans JP",sans-serif;font-size:10px}
+.dC .cal button{aspect-ratio:1;border:1px solid transparent;border-radius:4px;background:var(--calc);cursor:pointer;position:relative;padding:0;max-width:100%}
+.dC .cal button::after{content:"";position:absolute;left:50%;bottom:3px;width:5px;height:5px;margin-left:-2.5px;border-radius:50%;background:transparent}
+.dC .cal button[data-s="ok"]::after{background:var(--ok)}
+.dC .cal button[data-s="sub"]::after{background:var(--info)}
+.dC .cal button[data-s="draft"]::after{background:var(--warn)}
+.dC .cal button[data-s="rest"]{color:var(--muted);background:transparent}
+.dC .cal button[data-s="future"]{color:var(--muted)}
+.dC .cal button.sel{border-color:var(--accent);background:var(--accent-soft);font-weight:600}
+.dC .legend{display:flex;flex-wrap:wrap;gap:4px 10px;font-size:10.5px;color:var(--muted)}
+.dC .legend i{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:4px}
+.dC .month{border-top:1px solid var(--line);padding-top:10px;display:grid;gap:4px;font-size:12px}
+.dC .month div{display:flex;justify-content:space-between}
+.dC .month b{font-family:"IBM Plex Mono",monospace;font-weight:600}
+.dC .c-main{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,330px),1fr));gap:12px;align-items:start}
+.dC .panel{background:var(--surface);border:1px solid var(--line);border-radius:6px;overflow:hidden}
+.dC .panel.wide{grid-column:1/-1}
+.dC .panel h2{margin:0;font-size:11.5px;letter-spacing:.12em;font-weight:600;padding:7px 10px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;color:var(--muted)}
+.dC table{border-collapse:collapse;width:100%}
+.dC th,.dC td{border-bottom:1px solid var(--grid);height:28px;padding:0}
+.dC tbody th{font-weight:400;text-align:left;padding:0 10px;white-space:nowrap;width:1%}
+.dC thead th{font-size:10.5px;color:var(--muted);font-weight:500;padding:0 10px;text-align:right}
+.dC thead th:first-child{text-align:left}
+.dC td + td,.dC th + td{border-left:1px solid var(--grid)}
+.dC td input{width:100%;height:27px;border:0;background:transparent;padding:0 10px;text-align:right;font-family:"IBM Plex Mono",monospace;font-size:13px}
+.dC td input:not([data-num]){text-align:left;font-family:inherit}
+.dC td output{display:block;text-align:right;padding:0 10px;font-family:"IBM Plex Mono",monospace;color:var(--muted)}
+.dC tr.sub th{font-size:10.5px;color:var(--muted);font-weight:500;padding:0 10px;text-align:right;background:var(--calc);height:24px}
+.dC tr.sub th:first-child{text-align:left}
+.dC td.bn{min-width:9.5em}
+.dC tr.tot th,.dC tr.tot td{background:var(--calc);font-weight:600}
+.dC tr.tot output{color:var(--ink)}
+.dC tr[data-state="short"] output,.dC tr[data-state="over"] output{color:var(--bad)}
+.dC tr[data-state="ok"] output{color:var(--ok)}
+.dC input:focus-visible,.dC textarea:focus-visible{outline:2px solid var(--accent);outline-offset:-2px;background:var(--accent-soft)}
+.dC .memo{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr))}
+.dC .memo label{display:block;font-size:10.5px;color:var(--muted);padding:6px 10px 0;letter-spacing:.08em}
+.dC .memo textarea{width:100%;border:0;background:transparent;resize:vertical;padding:4px 10px 10px}
+.dC .memo > div + div{border-left:1px solid var(--grid)}
+.dC .c-keys{max-width:1480px;margin:12px auto 0;display:flex;flex-wrap:wrap;gap:6px 16px;font-size:11.5px;color:var(--muted)}
+.dC kbd{font-family:"IBM Plex Mono",monospace;font-size:10.5px;border:1px solid var(--line);border-bottom-width:2px;border-radius:4px;padding:0 5px;background:var(--surface);color:var(--ink)}
+.dC .c-keys .saved{margin-left:auto}
+@media (max-width:900px){.dC .c-layout{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:no-preference){.tab,.dB .btn,.dB .steps button{transition:background-color .15s,border-color .15s}}
+</style>
+</head>
+<body>
+<header class="switch">
+  <div class="switch-in">
+    <h1>Cocona 日報・日計表 デザイン案<small>事務所PC向け・GAS Webアプリ化の画面イメージ</small></h1>
+    <div class="tabs" role="tablist" aria-label="デザイン案">
+      <button class="tab" role="tab" id="tab-a" data-show="a" aria-selected="true"><b>A 帳票そのまま</b><span>紙の様式をそのまま画面に</span></button>
+      <button class="tab" role="tab" id="tab-b" data-show="b" aria-selected="false"><b>B 入力ガイド＋検算</b><span>項目ごとに入力、右で常時チェック</span></button>
+      <button class="tab" role="tab" id="tab-c" data-show="c" aria-selected="false"><b>C 表計算ライク</b><span>1画面に全部、キーボードで速く</span></button>
+    </div>
+  </div>
+  <p class="note">数字はサンプルです。どの案でも入力すると合計・過不足がその場で再計算され、3案の間で値は共有されます。押印欄・承認欄はクリックで切り替わります。<span class="kari">仮</span> の付いた計算式（<mark>過不足・在高計・医局(現金)を掛売に含めるか</mark>）は確認待ちです。</p>
+</header>
+
+<section class="dA" id="dA" role="tabpanel" aria-labelledby="tab-a"></section>
+<section class="dB" id="dB" role="tabpanel" aria-labelledby="tab-b" hidden></section>
+<section class="dC" id="dC" role="tabpanel" aria-labelledby="tab-c" hidden></section>
+
+<script>
+const KAMOKU=['食品(一般)','本・雑誌','器','シューズ','宅急便','雑貨(一般)','雑貨(社長)','雑貨(委託)','衣料(ヒトミ)','衣料(社長)','医局','PET','パルテール','カフェ(食事)','カフェ(飲料)','持ち帰り飲食','注文弁当'];
+const MARU='①②③④⑤⑥⑦⑧⑨⑩⑪⑫⑬⑭⑮⑯⑰';
+const KAKE=['総務課','医局(掛売)','医局(現金)','健診課(PET)','健診課(健診)','PayPay'];
+const KINSHU=[10000,5000,2000,1000,500,100,50,10,5,1];
+const COUNTS=[['omakase','おまかせ'],['pet','PET'],['morning','モーニング'],['ikyoku','医局'],['coupon','クーポン'],['pp8','PayPay 8%'],['pp10','PayPay 10%']];
+const MOBILE=[['food','食品'],['clothBoss','衣料(社長)'],['cloth','衣料'],['other','その他']];
+const ROLES={tanto:'担当',sekinin:'責任者',keiri:'経理',bucho:'部長',shacho:'社長'};
+const SAMPLE_NAMES={tanto:'山田',sekinin:'佐藤',keiri:'鈴木',bucho:'高橋',shacho:'田中'};
+const CHANGE=120000;
+
+const S={
+  name:'山田 花子', buyers:186, visitors:212, coconaVisitors:186,
+  bento:[{name:'ココナ弁当 630円',price:630,in:30,left:4},{name:'日替わり丼 550円',price:550,in:15,left:1},{name:'おにぎりセット 380円',price:380,in:20,left:6}],
+  omakaseMenu:'鶏の照り焼き・ひじき煮・小松菜のおひたし・味噌汁',
+  counts:{omakase:24,pet:12,morning:18,ikyoku:9,coupon:3,pp8:14,pp10:6},
+  mobile:{date:'9/22',food:4200,clothBoss:1500,cloth:0,other:450},
+  timeline:'8:30 開店準備・釣り銭確認\n11:00 弁当入荷（ココナ弁当30）\n13:30 移動販売分 精算\n17:00 レジ締め',
+  renraku:'午前中にPayPay端末が一度つながりにくくなった。再起動で復旧。',
+  comment:'',
+  sales:[38420,2860,0,0,1540,4230,1800,0,0,3300,12600,8820,6150,21450,9870,3240,18900],
+  kake:[5040,9450,3150,8820,0,14380],
+  ticket:1000,
+  kinshu:{10000:15,5000:6,2000:0,1000:24,500:9,100:24,50:6,10:13,5:2,1:0},
+  stamps:{tanto:'山田',sekinin:'',keiri:'',bucho:'',shacho:''}
+};
+
+const get=p=>p.split('.').reduce((o,k)=>o==null?undefined:o[k],S);
+function set(p,v){const ks=p.split('.');const last=ks.pop();ks.reduce((o,k)=>o[k],S)[last]=v}
+const n=v=>Number(v)||0;
+const fmt=v=>(v===''||v==null)?'':Number(v).toLocaleString('ja-JP');
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+function calc(){
+  const c={};
+  c.salesTotal=S.sales.reduce((a,b)=>a+n(b),0);
+  c.kakeTotal=S.kake.reduce((a,b)=>a+n(b),0);
+  c.ticket=n(S.ticket);
+  c.cash=0;
+  KINSHU.forEach(d=>{const v=d*n(S.kinshu[d]);c['kin.'+d]=v;c.cash+=v});
+  c.expected=CHANGE+c.salesTotal-c.kakeTotal-c.ticket;
+  c.diff=c.cash-c.expected;
+  c.diffS=(c.diff>0?'+':c.diff<0?'−':'±')+fmt(Math.abs(c.diff));
+  c.diffLabel=c.diff===0?'一致':c.diff<0?'不足':'過剰';
+  c.state=c.diff===0?'ok':c.diff<0?'short':'over';
+  c.zaidaka=c.cash-CHANGE;
+  c.cocona=c.salesTotal-n(S.sales[12]);
+  c.cafe=n(S.sales[13])+n(S.sales[14]);
+  c.mobileTotal=MOBILE.reduce((a,[k])=>a+n(S.mobile[k]),0);
+  c.change=CHANGE;
+  S.bento.forEach((b,i)=>{const sold=Math.max(0,n(b.in)-n(b.left));c['sold.'+i]=b.name?sold:'';c['bamt.'+i]=b.name?sold*n(b.price):''});
+  c.visitors=n(S.visitors);
+  return c;
+}
+
+let P='';
+const ni=(k,label,cls='')=>`<input class="${cls}" id="${P}-${k}" data-k="${k}" data-num inputmode="numeric" autocomplete="off" aria-label="${esc(label)}" value="${fmt(get(k))}">`;
+const ti=(k,label,cls='')=>`<input class="${cls}" id="${P}-${k}" data-k="${k}" autocomplete="off" aria-label="${esc(label)}" value="${esc(get(k))}">`;
+const ta=(k,label,rows=3)=>`<textarea id="${P}-${k}" data-k="${k}" rows="${rows}" aria-label="${esc(label)}">${esc(get(k))}</textarea>`;
+const o=(k,cls='')=>`<output class="${cls}" data-o="${k}"></output>`;
+const KARI='<span class="kari" title="計算式は確認待ち">仮</span>';
+
+/* ---------- A ---------- */
+function renderA(){
+  P='a';
+  const stamp=r=>`<button class="a-stamp" data-stamp="${r}" aria-label="${ROLES[r]}の押印"><span class="role">${ROLES[r]}</span><span class="seal"><span class="who"></span></span></button>`;
+  const bentoRows=S.bento.map((b,i)=>`<tr><td>${ti(`bento.${i}.name`,'弁当名')}</td><td>${ni(`bento.${i}.in`,'入数')}</td><td>${ni(`bento.${i}.left`,'残数')}</td><td class="calc">${o('sold.'+i)}</td></tr>`).join('');
+  return `<div class="desk">
+  <article class="sheet" aria-label="日報">
+    <div class="sh-head"><h2 class="form-title">【Cocona 日報】</h2><div class="date-line">2026年 9月 23日（水）</div></div>
+    <div class="top">
+      <div class="who-box">
+        <div class="fld"><span class="lab">氏名</span>${ti('name','氏名')}</div>
+        <div class="fld"><span class="lab">購入者数</span>${ni('buyers','購入者数')}<span class="unit">名</span></div>
+        <div class="fld"><span class="lab">売上金額</span>${o('salesTotal')}<span class="unit">円</span></div>
+        <div class="sub">（内Café売上 ${o('cafe')} 円）日計表から自動</div>
+      </div>
+      <div class="stamps">${['shacho','bucho','sekinin','tanto'].map(stamp).join('')}</div>
+    </div>
+    <div class="cols">
+      <div>
+        <h3>弁当類残数</h3>
+        <div class="scroll"><table class="grid"><colgroup><col style="width:46%"><col><col><col></colgroup><thead><tr><th>品名</th><th>入数</th><th>残数</th><th>販売</th></tr></thead><tbody>${bentoRows}</tbody></table></div>
+        <h3 style="margin-top:16px">パルテール移動販売（<input data-k="mobile.date" id="a-mobile.date" aria-label="移動販売の月日" value="${esc(S.mobile.date)}" style="width:4.5em;border:0;border-bottom:1px solid var(--rule);background:transparent;text-align:center">分）</h3>
+        <table class="grid"><tbody>${MOBILE.map(([k,l])=>`<tr><th>${l}</th><td>${ni('mobile.'+k,l)}</td></tr>`).join('')}<tr class="strong"><th>計</th><td class="calc">${o('mobileTotal')}</td></tr></tbody></table>
+      </div>
+      <div>
+        <h3>おまかせメニュー</h3>
+        <div class="menu-box">${ta('omakaseMenu','おまかせメニュー',2)}</div>
+        <table class="grid" style="margin-top:12px"><tbody>${COUNTS.map(([k,l])=>`<tr><th>${l}</th><td>${ni('counts.'+k,l)}</td></tr>`).join('')}</tbody></table>
+      </div>
+    </div>
+    <div class="memo">
+      <div><label for="a-timeline">時間・内容</label>${ta('timeline','時間・内容',4)}</div>
+      <div><label for="a-renraku">連絡事項・相談事項・提案事項</label>${ta('renraku','連絡事項',2)}</div>
+      <div><label for="a-comment">コメント</label>${ta('comment','コメント',2)}</div>
+    </div>
+  </article>
+
+  <article class="sheet" aria-label="日計表">
+    <div class="sh-head">
+      <div style="display:grid;gap:10px">
+        <h2 class="form-title boxed">Cocona 日計表</h2>
+        <div class="date-line">2026（R8）年 9月 23日（水）</div>
+      </div>
+      <div class="stamps">${['shacho','bucho','sekinin','keiri','tanto'].map(stamp).join('')}</div>
+    </div>
+    <div class="tanto-line"><span class="unit">担当者</span>${ti('name','担当者')}<span class="inkan">印</span></div>
+    <div class="nk">
+      <div class="scroll"><table class="grid">
+        <thead><tr><th colspan="2" style="font-size:15px;letter-spacing:1.2em">入金</th></tr><tr><th>科目</th><th>金額</th></tr></thead>
+        <tbody>
+          ${KAMOKU.map((k,i)=>`<tr><th>${MARU[i]} ${k}</th><td>${ni('sales.'+i,k)}</td></tr>`).join('')}
+          <tr class="strong"><th>売上計(税込)</th><td class="calc">${o('salesTotal')}</td></tr>
+          <tr><th>掛売計</th><td class="calc">${o('kakeTotal')}</td></tr>
+          <tr><th>商品券</th><td>${ni('ticket','商品券')}</td></tr>
+          <tr><th>過不足${KARI}</th><td class="calc diff-cell" data-state-of="state">${o('diffS')}</td></tr>
+          <tr class="strong"><th>在高計${KARI}</th><td class="calc">${o('zaidaka')}</td></tr>
+        </tbody>
+      </table></div>
+      <div class="nk-right">
+        <div class="scroll"><table class="grid">
+          <thead><tr><th colspan="2" style="font-size:15px;letter-spacing:.8em">掛売内訳</th></tr><tr><th>掛売先</th><th>金額</th></tr></thead>
+          <tbody>
+            ${KAKE.map((k,i)=>`<tr><th>${k}${i===2?KARI:''}</th><td>${ni('kake.'+i,k)}</td></tr>`).join('')}
+            <tr class="strong"><th>掛売合計金額</th><td class="calc">${o('kakeTotal')}</td></tr>
+            <tr class="strong"><th>釣り銭</th><td class="calc"><div class="yen-fixed">¥120,000</div></td></tr>
+          </tbody>
+        </table></div>
+        <div class="scroll"><table class="grid">
+          <thead><tr><th>金種</th><th>枚数</th><th>金額</th></tr></thead>
+          <tbody>
+            ${KINSHU.map(d=>`<tr><th style="text-align:right">${fmt(d)}円</th><td>${ni('kinshu.'+d,fmt(d)+'円の枚数')}</td><td class="calc">${o('kin.'+d)}</td></tr>`).join('')}
+            <tr class="strong"><th>現金在高</th><td colspan="2" class="calc">${o('cash')}</td></tr>
+          </tbody>
+        </table></div>
+      </div>
+    </div>
+    <div class="nk-foot">
+      <div class="fld"><span class="lab">Cocona分<br><small>(売上計−⑬)</small></span>${o('cocona')}</div>
+      <div style="display:grid;gap:8px">
+        <div class="fld"><span class="lab">来客者数</span>${ni('visitors','来客者数')}<span class="unit">人</span></div>
+        <div class="fld"><span class="lab">Cocona</span>${ni('coconaVisitors','Cocona来客者数')}<span class="unit">人</span></div>
+      </div>
+    </div>
+  </article>
+</div>`;
+}
+
+/* ---------- B ---------- */
+function renderB(){
+  P='b';
+  const f=(inner,label,id)=>`<div class="f"><label for="${id}">${label}</label>${inner}</div>`;
+  return `<div class="b-top">
+  <div class="b-brand">Cocona<span>日報・日計表</span></div>
+  <label class="b-date" for="b-date">日付 <input type="date" id="b-date" value="2026-09-23"></label>
+  <span class="chip draft">下書き</span>
+  <div class="b-actions"><button class="btn" type="button">下書き保存</button><button class="btn primary" type="button">提出する</button></div>
+</div>
+<div class="b-layout">
+  <nav class="b-nav" aria-label="入力セクション">
+    <div><p>日報</p>
+      <a href="#b-s1">基本情報<i class="dot"></i></a><a href="#b-s2">弁当残数<i class="dot"></i></a><a href="#b-s3">件数・メニュー<i class="dot"></i></a><a href="#b-s4">移動販売<i class="dot"></i></a><a href="#b-s8">連絡事項</a></div>
+    <div><p>日計表</p>
+      <a href="#b-s5">入金<i class="dot"></i></a><a href="#b-s6">掛売内訳<i class="dot"></i></a><a href="#b-s7">金種・現金<i class="dot"></i></a></div>
+  </nav>
+  <main class="b-main">
+    <div class="part">日報</div>
+    <section class="card" id="b-s1"><h2>基本情報</h2><div class="fields">
+      ${f(ti('name','氏名'),'氏名','b-name')}
+      ${f(ni('buyers','購入者数'),'購入者数（名）','b-buyers')}
+      ${f(ni('visitors','来客者数'),'来客者数（人）','b-visitors')}
+      ${f(ni('coconaVisitors','Cocona来客者数'),'うちCocona（人）','b-coconaVisitors')}
+      <div class="f calc"><label>売上金額（日計表から）</label>${o('salesTotal')}</div>
+      <div class="f calc"><label>うちCafé売上</label>${o('cafe')}</div>
+    </div></section>
+    <section class="card" id="b-s2"><h2>弁当類残数 <small>販売数は入数−残数で自動</small></h2>
+      <div class="scroll"><table><thead><tr><th>品名</th><th class="r">入数</th><th class="r">残数</th><th class="r">販売</th><th class="r">売上見込</th></tr></thead><tbody>
+      ${S.bento.map((b,i)=>`<tr><td>${ti(`bento.${i}.name`,'弁当名')}</td><td style="width:90px">${ni(`bento.${i}.in`,'入数')}</td><td style="width:90px">${ni(`bento.${i}.left`,'残数')}</td><td class="r">${o('sold.'+i)}</td><td class="r">${o('bamt.'+i)}</td></tr>`).join('')}
+      </tbody></table></div>
+    </section>
+    <section class="card" id="b-s3"><h2>おまかせメニュー・件数</h2>
+      <div class="fields" style="grid-template-columns:1fr;margin-bottom:12px">${f(ta('omakaseMenu','おまかせメニュー',2),'おまかせメニュー','b-omakaseMenu')}</div>
+      <div class="fields">${COUNTS.map(([k,l])=>f(ni('counts.'+k,l),l+'（件）','b-counts.'+k)).join('')}</div>
+    </section>
+    <section class="card" id="b-s4"><h2>パルテール移動販売</h2><div class="fields">
+      ${f(ti('mobile.date','移動販売の月日'),'何日分','b-mobile.date')}
+      ${MOBILE.map(([k,l])=>f(ni('mobile.'+k,l),l,'b-mobile.'+k)).join('')}
+      <div class="f calc"><label>計</label>${o('mobileTotal')}</div>
+    </div></section>
+    <div class="part">日計表</div>
+    <section class="card" id="b-s5"><h2>入金 <small>科目ごとの売上（税込）</small></h2><div class="fields">
+      ${KAMOKU.map((k,i)=>f(ni('sales.'+i,k),`<span class="maru">${MARU[i]}</span>${k}`,'b-sales.'+i)).join('')}
+      ${f(ni('ticket','商品券'),'商品券','b-ticket')}
+    </div></section>
+    <section class="card" id="b-s6"><h2>掛売内訳</h2><div class="fields">
+      ${KAKE.map((k,i)=>f(ni('kake.'+i,k),k+(i===2?KARI:''),'b-kake.'+i)).join('')}
+      <div class="f calc"><label>掛売合計金額</label>${o('kakeTotal')}</div>
+    </div></section>
+    <section class="card" id="b-s7"><h2>金種在高 <small>枚数を入れると金額は自動（釣り銭 ¥120,000 を含む）</small></h2>
+      <div class="scroll"><table><thead><tr><th>金種</th><th class="r">枚数</th><th class="r">金額</th></tr></thead><tbody>
+      ${KINSHU.map(d=>`<tr><td>${fmt(d)}円</td><td style="width:120px">${ni('kinshu.'+d,fmt(d)+'円の枚数')}</td><td class="r">${o('kin.'+d)}</td></tr>`).join('')}
+      </tbody><tfoot><tr><th colspan="2">現金在高</th><td class="r">${o('cash')}</td></tr></tfoot></table></div>
+    </section>
+    <section class="card" id="b-s8"><h2>連絡事項・コメント</h2><div class="fields" style="grid-template-columns:1fr">
+      ${f(ta('timeline','時間・内容',4),'時間・内容','b-timeline')}
+      ${f(ta('renraku','連絡事項',2),'連絡事項・相談事項・提案事項','b-renraku')}
+      ${f(ta('comment','コメント',2),'コメント','b-comment')}
+    </div></section>
+  </main>
+  <aside class="b-sum" aria-label="検算">
+    <h2>検算</h2>
+    <div><div style="font-size:12px;color:var(--muted)">売上計（税込）</div><div class="big">${o('salesTotal')}<small>円</small></div></div>
+    <div class="rows">
+      <div><span>釣り銭</span>${o('change')}</div>
+      <div><span>＋ 売上計</span>${o('salesTotal')}</div>
+      <div><span>− 掛売計</span>${o('kakeTotal')}</div>
+      <div><span>− 商品券</span>${o('ticket')}</div>
+      <div class="sep"><span>あるべき現金</span>${o('expected')}</div>
+      <div><span>数えた現金（在高）</span>${o('cash')}</div>
+    </div>
+    <div class="diff" data-state-of="state"><div class="lbl"><span>過不足${KARI}</span>${o('diffLabel')}</div><div class="big">${o('diffS')}</div></div>
+    <div class="rows">
+      <div><span>在高計${KARI}</span>${o('zaidaka')}</div>
+      <div><span>Cocona分（売上計−⑬）</span>${o('cocona')}</div>
+      <div><span>来客者数</span>${o('visitors')}</div>
+    </div>
+    <h2>承認</h2>
+    <ol class="steps">${['tanto','sekinin','keiri','bucho','shacho'].map(r=>`<li><button type="button" data-stamp="${r}" data-off="未承認"><span>${ROLES[r]}</span><span class="who"></span></button></li>`).join('')}</ol>
+  </aside>
+</div>`;
+}
+
+/* ---------- C ---------- */
+function renderC(){
+  P='c';
+  const status=d=>{const wd=(d+1)%7;if(wd===0)return 'rest';if(d<=20)return 'ok';if(d<=22)return 'sub';if(d===23)return 'draft';return 'future'};
+  let cal=['日','月','火','水','木','金','土'].map(w=>`<span class="wd">${w}</span>`).join('')+'<span></span><span></span>';
+  for(let d=1;d<=30;d++){cal+=`<button type="button" data-s="${status(d)}" class="${d===23?'sel':''}" aria-label="9月${d}日">${d}</button>`}
+  const kinRows=KINSHU.map(d=>`<tr><th>${fmt(d)}</th><td>${ni('kinshu.'+d,fmt(d)+'円の枚数')}</td><td>${o('kin.'+d)}</td></tr>`).join('');
+  return `<div class="c-bar">
+  <div class="c-title">Cocona 帳票</div>
+  <div class="c-nav"><button type="button" aria-label="前の日">‹</button><span>2026/09/23 水</span><button type="button" aria-label="次の日">›</button></div>
+  <div class="kpis">
+    <div class="kpi"><span>売上計</span>${o('salesTotal')}</div>
+    <div class="kpi"><span>掛売計</span>${o('kakeTotal')}</div>
+    <div class="kpi"><span>現金在高</span>${o('cash')}</div>
+    <div class="kpi" data-state-of="state"><span>過不足 ${KARI}</span>${o('diffS')}</div>
+    <div class="kpi"><span>Cocona分</span>${o('cocona')}</div>
+    <div class="kpi"><span>来客</span>${o('visitors')}</div>
+  </div>
+  <div class="c-stamps">${['tanto','sekinin','keiri','bucho','shacho'].map(r=>`<button type="button" data-stamp="${r}" data-off="—"><span>${ROLES[r]}</span><span class="who"></span></button>`).join('')}</div>
+</div>
+<div class="c-layout">
+  <aside class="c-cal">
+    <h2><span>2026年 9月</span><span style="color:var(--muted);font-weight:400">R8</span></h2>
+    <div class="cal">${cal}</div>
+    <div class="legend"><span><i style="background:var(--ok)"></i>承認済</span><span><i style="background:var(--info)"></i>提出済</span><span><i style="background:var(--warn)"></i>下書き</span></div>
+    <div class="month">
+      <div><span>9月 売上累計</span><b>2,864,310</b></div>
+      <div><span>営業日</span><b>19日</b></div>
+      <div><span>1日平均</span><b>150,753</b></div>
+      <div style="color:var(--muted);font-size:10.5px">※累計はサンプル値</div>
+    </div>
+  </aside>
+  <main class="c-main">
+    <section class="panel"><h2><span>入金</span><span>円</span></h2><table><tbody>
+      ${KAMOKU.map((k,i)=>`<tr><th>${MARU[i]} ${k}</th><td>${ni('sales.'+i,k)}</td></tr>`).join('')}
+      <tr class="tot"><th>売上計(税込)</th><td>${o('salesTotal')}</td></tr>
+      <tr><th>商品券</th><td>${ni('ticket','商品券')}</td></tr>
+    </tbody></table></section>
+    <section class="panel"><h2><span>掛売内訳 ／ 金種</span><span>釣り銭 120,000</span></h2><table>
+      <tbody>${KAKE.map((k,i)=>`<tr><th>${k}${i===2?KARI:''}</th><td colspan="2">${ni('kake.'+i,k)}</td></tr>`).join('')}
+      <tr class="tot"><th>掛売計</th><td colspan="2">${o('kakeTotal')}</td></tr></tbody>
+      <tbody><tr class="sub"><th>金種</th><th>枚数</th><th>金額</th></tr>${kinRows}
+      <tr class="tot"><th>現金在高</th><td colspan="2">${o('cash')}</td></tr>
+      <tr class="tot" data-state-of="state"><th>過不足 ${KARI}</th><td colspan="2">${o('diffS')}</td></tr>
+      <tr class="tot"><th>在高計 ${KARI}</th><td colspan="2">${o('zaidaka')}</td></tr>
+      <tr class="tot"><th>Cocona分</th><td colspan="2">${o('cocona')}</td></tr></tbody>
+    </table></section>
+    <section class="panel"><h2><span>日報</span><span>Café ${o('cafe')}</span></h2><table><tbody>
+      <tr><th>氏名</th><td colspan="3">${ti('name','氏名')}</td></tr>
+      <tr><th>購入者数</th><td colspan="3">${ni('buyers','購入者数')}</td></tr>
+      <tr><th>来客者数</th><td colspan="3">${ni('visitors','来客者数')}</td></tr>
+      <tr><th>うちCocona</th><td colspan="3">${ni('coconaVisitors','Cocona来客者数')}</td></tr>
+      ${COUNTS.map(([k,l])=>`<tr><th>${l}</th><td colspan="3">${ni('counts.'+k,l)}</td></tr>`).join('')}
+      <tr><th>おまかせ</th><td colspan="3">${ti('omakaseMenu','おまかせメニュー')}</td></tr>
+    </tbody>
+    <tbody><tr class="sub"><th>弁当</th><th>入数</th><th>残数</th><th>販売</th></tr>
+    ${S.bento.map((b,i)=>`<tr><td class="bn">${ti(`bento.${i}.name`,'弁当名')}</td><td>${ni(`bento.${i}.in`,'入数')}</td><td>${ni(`bento.${i}.left`,'残数')}</td><td>${o('sold.'+i)}</td></tr>`).join('')}
+    <tr class="sub"><th>移動販売</th><td colspan="3">${ti('mobile.date','移動販売の月日')}</td></tr>
+    ${MOBILE.map(([k,l])=>`<tr><th>${l}</th><td colspan="3">${ni('mobile.'+k,l)}</td></tr>`).join('')}
+    <tr class="tot"><th>計</th><td colspan="3">${o('mobileTotal')}</td></tr></tbody>
+    </table></section>
+    <section class="panel wide"><h2><span>メモ</span></h2><div class="memo">
+      <div><label for="c-timeline">時間・内容</label>${ta('timeline','時間・内容',4)}</div>
+      <div><label for="c-renraku">連絡・相談・提案</label>${ta('renraku','連絡事項',4)}</div>
+      <div><label for="c-comment">コメント</label>${ta('comment','コメント',4)}</div>
+    </div></section>
+  </main>
+</div>
+<div class="c-keys"><span><kbd>Enter</kbd> 次の欄</span><span><kbd>Shift</kbd>+<kbd>Enter</kbd> 前の欄</span><span><kbd>Ctrl</kbd>+<kbd>S</kbd> 下書き保存</span><span class="saved">自動保存 12:46</span></div>`;
+}
+
+/* ---------- wiring ---------- */
+const root={a:document.getElementById('dA'),b:document.getElementById('dB'),c:document.getElementById('dC')};
+root.a.innerHTML=renderA();root.b.innerHTML=renderB();root.c.innerHTML=renderC();
+
+function refresh(){
+  const c=calc();
+  document.querySelectorAll('[data-o]').forEach(el=>{const v=c[el.dataset.o];el.textContent=typeof v==='number'?fmt(v):(v??'')});
+  document.querySelectorAll('[data-state-of]').forEach(el=>el.dataset.state=c[el.dataset.stateOf]);
+}
+function refreshStamps(){
+  document.querySelectorAll('[data-stamp]').forEach(el=>{
+    const who=S.stamps[el.dataset.stamp];
+    el.classList.toggle('on',!!who);
+    el.setAttribute('aria-pressed',who?'true':'false');
+    el.querySelector('.who').textContent=who||el.dataset.off||'';
+  });
+}
+document.addEventListener('input',e=>{
+  const el=e.target,k=el.dataset&&el.dataset.k;if(!k)return;
+  let v=el.value;
+  if(el.hasAttribute('data-num')){v=v.replace(/[^\d]/g,'');v=v===''?'':Number(v)}
+  set(k,v);
+  document.querySelectorAll(`[data-k="${k}"]`).forEach(x=>{if(x!==el)x.value=x.hasAttribute('data-num')?fmt(v):v});
+  refresh();
+});
+document.addEventListener('focusin',e=>{const el=e.target;if(el.hasAttribute&&el.hasAttribute('data-num')){const v=get(el.dataset.k);el.value=v===''||v==null?'':String(v);el.select()}});
+document.addEventListener('focusout',e=>{const el=e.target;if(el.hasAttribute&&el.hasAttribute('data-num'))el.value=fmt(get(el.dataset.k))});
+document.addEventListener('click',e=>{
+  const s=e.target.closest('[data-stamp]');
+  if(s){const r=s.dataset.stamp;S.stamps[r]=S.stamps[r]?'':SAMPLE_NAMES[r];refreshStamps();return}
+  const t=e.target.closest('[data-show]');
+  if(t)show(t.dataset.show);
+});
+root.c.addEventListener('keydown',e=>{
+  if(e.key!=='Enter'||e.target.tagName!=='INPUT')return;
+  e.preventDefault();
+  const list=[...root.c.querySelectorAll('input')];
+  const i=list.indexOf(e.target);
+  const next=list[i+(e.shiftKey?-1:1)];
+  if(next)next.focus();
+});
+function show(d){
+  Object.entries(root).forEach(([k,el])=>el.hidden=k!==d);
+  document.querySelectorAll('[data-show]').forEach(b=>b.setAttribute('aria-selected',b.dataset.show===d?'true':'false'));
+  try{localStorage.setItem('cocona-design',d)}catch(_){}
+  if(location.hash.slice(1)!==d)history.replaceState(null,'','#'+d);
+}
+let saved='a';try{saved=localStorage.getItem('cocona-design')||'a'}catch(_){}
+const fromHash=location.hash.slice(1).toLowerCase();
+show(['a','b','c'].includes(fromHash)?fromHash:(['a','b','c'].includes(saved)?saved:'a'));
+addEventListener('hashchange',()=>{const h=location.hash.slice(1).toLowerCase();if(['a','b','c'].includes(h))show(h)});
+refresh();refreshStamps();
+</script>
+</body>
+</html>
